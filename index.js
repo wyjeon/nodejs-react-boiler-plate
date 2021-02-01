@@ -3,6 +3,8 @@ const app = express();
 const port = 5000;
 const bodyParser = require("body-parser"); //req.body
 
+const config = require("./config/key");
+
 const { User } = require("./models/User"); //유저 모델을 가져온다.
 
 app.use(bodyParser.urlencoded({ extended: true })); //application/x-www-form-urlencode을 분석해서 가져오도록 한다.
@@ -10,20 +12,17 @@ app.use(bodyParser.json()); //application/json 타입을 분석해서 가져오�
 
 const mongoose = require("mongoose");
 mongoose
-  .connect(
-    "mongodb+srv://wyjeon:<password>@cluster0.ofgqd.mongodb.net/<dbname>?retryWrites=true&w=majority",
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useCreateIndex: true,
-      useFindAndModify: false,
-    }
-  )
+  .connect(config.mongoURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
+  })
   .then(() => console.log("MongoDB Connceted..."))
   .catch((err) => console.log(err));
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.send("Hello World! hi~");
 });
 
 app.post("/register", (req, res) => {
