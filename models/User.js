@@ -6,33 +6,33 @@ const jwt = require("jsonwebtoken");
 const userSchema = mongoose.Schema({
   name: {
     type: String,
-    maxlength: 50,
+    maxlength: 50
   },
   email: {
     type: String,
     trim: true, // 빈칸제거
-    unique: 1,
+    unique: 1
   },
   password: {
     type: String,
-    minlength: 5,
+    minlength: 5
   },
   lastname: {
     type: String,
-    maxlength: 50,
+    maxlength: 50
   },
   role: {
     type: Number,
-    default: 0,
+    default: 0
   },
   image: String,
   token: {
-    type: String,
+    type: String
   },
   tokenExp: {
     //토큰 유효기간
-    type: Number,
-  },
+    type: Number
+  }
 });
 
 userSchema.pre("save", function (next) {
@@ -80,11 +80,11 @@ userSchema.statics.findByToken = function (token, cb) {
   jwt.verify(token, "secretToken", function (err, decoded) {
     //유저 아이디를 이용해서 유저를 찾은 다음에
     //클라이언트에서 가져온 token과 DB에 보관된 token이 일치하는지 확인
-    user.findOne({ _id: decoded, token: token }),
-      function (err, user) {
-        if (err) return cb(err);
-        cb(null, user);
-      };
+
+    user.findOne({ _id: decoded, token: token }, function (err, user) {
+      if (err) return cb(err);
+      cb(null, user);
+    });
   });
 };
 
