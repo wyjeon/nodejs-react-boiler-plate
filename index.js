@@ -1,12 +1,11 @@
 const express = require("express");
 const app = express();
 const port = 5000;
-const bodyParser = require("body-parser"); //req.body
 
 const config = require("./config/key");
-
 const { User } = require("./models/User"); //유저 모델을 가져온다.
 
+const bodyParser = require("body-parser"); //req.body
 app.use(bodyParser.urlencoded({ extended: true })); //application/x-www-form-urlencode을 분석해서 가져오도록 한다.
 app.use(bodyParser.json()); //application/json 타입을 분석해서 가져오도록한다.
 
