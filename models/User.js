@@ -47,9 +47,18 @@ userSchema.pre("save", function (next) {
         next();
       });
     });
+  } else {
+    next();
   }
 });
 
+userSchema.methods.comparePassword = function (plainPassword, cb) {
+  //plainPassword을 암호화한 다음 db에 있는 암호화된 비밀번호와 비교
+  bcrypt.compare(plainPassword, this.password, function (err, isMatch) {
+    if (err) return cb(err);
+    cb(null, isMatch);
+  });
+};
 const User = mongoose.model("User", userSchema);
 
 module.exports = { User };
